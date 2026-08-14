@@ -56,7 +56,10 @@ export default function AboutPage() {
       <p><a className="btn btn-outline" href="/get-involved">Get Involved</a></p>
 
       <h2>Rabbi David Ebner zt&quot;l (1945&ndash;2025)</h2>
-      <img className="portrait" src="/rabbi-ebner.jpg" alt="Rabbi David Ebner zt&quot;l" />
+      <figure className="portrait-frame">
+        <img src="/rabbi-ebner.jpg" alt="Rabbi David Ebner zt&quot;l" />
+        <figcaption>Rabbi David Ebner zt&quot;l</figcaption>
+      </figure>
 
       <p>
         Rabbi David Ebner was born in Bradford, Pennsylvania, in 1945. He

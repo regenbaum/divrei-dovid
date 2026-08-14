@@ -1,12 +1,12 @@
 import Link from 'next/link'
-import { getFeaturedShiurim } from '@/lib/content'
+import InkBlot from '@/components/InkBlot'
+import InkDivider from '@/components/InkDivider'
 
-export default async function HomePage() {
-  const featured = await getFeaturedShiurim()
-
+export default function HomePage() {
   return (
     <>
       <section className="hero">
+        <InkBlot />
         <p className="label">The Torah &amp; Legacy of Rabbi David Ebner zt&quot;l</p>
         <h1 className="hebrew-title">דברי דוד</h1>
         <h2 className="hero-sub">Divrei Dovid</h2>
@@ -21,33 +21,57 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section">
-        <p className="label">Featured Shiurim</p>
-        <div className="card-grid">
-          {featured.every((s) => !s.viewUrl) && (
-            <p className="muted">
-              Featured shiurim will appear here once real Drive file IDs are
-              set in <code>lib/featured.js</code>.
-            </p>
-          )}
-          {featured.map((s, i) => (
-            <a
-              key={s.driveFileId || i}
-              href={s.viewUrl || '#'}
-              className="card"
-              target={s.viewUrl ? '_blank' : undefined}
-              rel="noreferrer"
-            >
-              <p className="card-title">{s.title}</p>
-              {s.description && <p className="card-desc">{s.description}</p>}
-            </a>
-          ))}
-        </div>
+      <InkDivider />
+
+      <section className="feature-strip">
+        <Link href="/shiurim" className="feature">
+          <div className="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+              <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+              <rect x="2.5" y="14" width="4" height="6" rx="1.2" />
+              <rect x="17.5" y="14" width="4" height="6" rx="1.2" />
+            </svg>
+          </div>
+          <h3>Recorded Shiurim</h3>
+          <p>Hours of chavrutot and shiurim, gradually being organized and made accessible.</p>
+        </Link>
+        <Link href="/writings" className="feature">
+          <div className="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+              <path d="M4 5.5c2.5-1 5-1 7 0v14c-2-1-4.5-1-7 0z" />
+              <path d="M20 5.5c-2.5-1-5-1-7 0v14c2-1 4.5-1 7 0z" />
+            </svg>
+          </div>
+          <h3>Writings &amp; Poetry</h3>
+          <p>Essays, marginalia, and three published collections of his poetry.</p>
+        </Link>
+        <Link href="/teshuva" className="feature">
+          <div className="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+              <path d="M20 3 4 12l7 2 2 7z" />
+            </svg>
+          </div>
+          <h3>The Dance of Teshuva</h3>
+          <p>A new reader of his essays and poems on teshuva, for the Yamim Noraim.</p>
+        </Link>
+      </section>
+
+      <InkDivider />
+
+      <section className="quote-section">
+        <div className="quote-mark">&ldquo;</div>
+        <p className="quote-text">{`In heaven (or hell) there is
+a Library of Everything:
+the proof for Fermat's Last Theorem,
+who was on the grassy knoll,
+was Mantle better than Mays,
+the Grand Unified Theory`}</p>
+        <p className="quote-attr">Rabbi David Ebner, <span>&ldquo;The Library of Everything&rdquo;</span></p>
       </section>
 
       <section className="callout">
         <div>
-          <p className="label label-light">New · For the Yamim Noraim</p>
+          <p className="label" style={{ marginBottom: 10 }}>New &middot; For the Yamim Noraim</p>
           <h3>The Dance of Teshuva</h3>
           <p>
             An 1840 reader of Rav Ebner&rsquo;s essays and poems on teshuva,
