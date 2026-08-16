@@ -61,6 +61,36 @@ To publish an approved one, add it as an entry in `data/tributes.json`:
 
 Use `"display": "anonymous"` to hide the name.
 
+## Editing site text from the admin panel
+
+Visit `/admin/login` on the live site (there's a small "Admin" link in the
+footer) and sign in with the password you set below. You'll get a simple
+form for every page's text — edit it, hit Save, and the change is committed
+straight to GitHub, which triggers Vercel to automatically rebuild and
+redeploy (usually live within a minute).
+
+**Setup (one-time, in Vercel → Project Settings → Environment Variables):**
+
+1. `ADMIN_PASSWORD` — pick a long, unique password. This is the only thing
+   protecting the editor, so don't reuse a password from anywhere else.
+2. `ADMIN_SESSION_SECRET` — a random signing key for login sessions.
+   Generate one with `openssl rand -hex 32`, or any password generator
+   (40+ random characters).
+3. A GitHub token so saved edits can be committed automatically:
+   - Go to https://github.com/settings/tokens?type=beta
+   - Generate a new **fine-grained** token
+   - Under "Repository access," choose **Only select repositories** →
+     `regenbaum/divrei-dovid`
+   - Under "Permissions," set **Contents: Read and write**
+   - Copy the token into `GITHUB_TOKEN`
+   - Also set `GITHUB_OWNER=regenbaum`, `GITHUB_REPO=divrei-dovid`,
+     `GITHUB_BRANCH=main` (all already defaulted in the code, but explicit
+     is safer)
+
+Without these three set, the site and every other page work fine — only
+the admin editor's save step will show a clear error telling you what's
+missing.
+
 ## When this outgrows Google Drive
 
 Everything that reads shiur data goes through two functions in

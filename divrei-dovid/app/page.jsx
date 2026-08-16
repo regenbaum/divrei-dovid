@@ -1,20 +1,19 @@
 import Link from 'next/link'
 import InkBlot from '@/components/InkBlot'
 import InkDivider from '@/components/InkDivider'
+import content from '@/content/site-content.json'
 
 export default function HomePage() {
+  const { home } = content
+
   return (
     <>
       <section className="hero">
         <InkBlot />
-        <p className="label">The Torah &amp; Legacy of Rabbi David Ebner zt&quot;l</p>
+        <p className="label">{home.heroLabel}</p>
         <h1 className="hebrew-title">דברי דוד</h1>
         <h2 className="hero-sub">Divrei Dovid</h2>
-        <p className="hero-copy">
-          A growing digital home for the shiurim, writings, and poetry of
-          Rabbi David Ebner — preserved for his students, and for those who
-          never had the chance to learn from him.
-        </p>
+        <p className="hero-copy">{home.heroCopy}</p>
         <div className="hero-actions">
           <Link className="btn btn-primary" href="/shiurim">Browse the Shiurim</Link>
           <Link className="btn btn-outline" href="/writings">Read His Writings</Link>
@@ -60,23 +59,15 @@ export default function HomePage() {
 
       <section className="quote-section">
         <div className="quote-mark">&ldquo;</div>
-        <p className="quote-text">{`In heaven (or hell) there is
-a Library of Everything:
-the proof for Fermat's Last Theorem,
-who was on the grassy knoll,
-was Mantle better than Mays,
-the Grand Unified Theory`}</p>
-        <p className="quote-attr">Rabbi David Ebner, <span>&ldquo;The Library of Everything&rdquo;</span></p>
+        <p className="quote-text">{home.quoteText}</p>
+        <p className="quote-attr">{home.quoteAttribution}</p>
       </section>
 
       <section className="callout">
         <div>
-          <p className="label" style={{ marginBottom: 10 }}>New &middot; For the Yamim Noraim</p>
-          <h3>The Dance of Teshuva</h3>
-          <p>
-            An 1840 reader of Rav Ebner&rsquo;s essays and poems on teshuva,
-            with an introduction by Rabbi Dovid Bashevkin.
-          </p>
+          <p className="label" style={{ marginBottom: 10 }}>{home.calloutLabel}</p>
+          <h3>{home.calloutTitle}</h3>
+          <p>{home.calloutCopy}</p>
         </div>
         <Link className="btn btn-gold" href="/teshuva">Request Copies</Link>
       </section>

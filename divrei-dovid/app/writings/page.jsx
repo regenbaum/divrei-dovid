@@ -1,3 +1,6 @@
+import InkDivider from '@/components/InkDivider'
+import content from '@/content/site-content.json'
+
 export const metadata = {
   title: 'Writings',
   description: 'Where to find Rabbi David Ebner\'s writings, poetry, and shiurim across the web.',
@@ -47,13 +50,15 @@ const RESOURCES = [
 ]
 
 export default function WritingsPage() {
+  const { writings } = content
   return (
     <div className="page">
+      <p className="label">{writings.eyebrow}</p>
       <h1>Where to Find His Torah</h1>
-      <p className="subtitle">
-        Several platforms already host pieces of Rabbi Ebner&rsquo;s legacy.
-        This page brings them together in one place.
-      </p>
+      <p className="subtitle">{writings.intro}</p>
+
+      <InkDivider />
+
       <ul className="resource-list">
         {RESOURCES.map((r) => (
           <li key={r.href}>

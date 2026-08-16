@@ -1,16 +1,18 @@
 import Link from 'next/link'
+import InkDivider from '@/components/InkDivider'
+import content from '@/content/site-content.json'
 
 export const metadata = { title: 'Get Involved' }
 
 export default function GetInvolvedPage() {
+  const { getInvolved } = content
   return (
     <div className="page">
+      <p className="label">{getInvolved.eyebrow}</p>
       <h1>Help Carry This Forward</h1>
-      <p className="subtitle">
-        Divrei Dovid is entirely a labor of love — built and maintained by
-        students who learned from Rabbi Ebner and want his Torah to keep
-        reaching people. There&rsquo;s no single way to help.
-      </p>
+      <p className="subtitle">{getInvolved.intro}</p>
+
+      <InkDivider />
 
       <div className="involve-grid">
         <Link className="involve-card" href="/contribute">

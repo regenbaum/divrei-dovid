@@ -110,11 +110,11 @@ img { max-width: 100%; display: block; }
   padding: 88px 24px 64px;
   max-width: 760px;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: visible;
 }
 .ink-blot {
   position: absolute;
-  top: -40px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   width: 560px;

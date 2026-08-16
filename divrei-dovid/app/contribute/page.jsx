@@ -1,4 +1,6 @@
 import ContactForm from '@/components/ContactForm'
+import InkDivider from '@/components/InkDivider'
+import content from '@/content/site-content.json'
 
 export const metadata = { title: 'Contribute Material' }
 
@@ -33,16 +35,15 @@ const FIELDS = [
 ]
 
 export default function ContributePage() {
+  const { contribute } = content
   return (
     <div className="page">
+      <p className="label">{contribute.eyebrow}</p>
       <h1>Do You Have a Recording, or Something He Wrote?</h1>
-      <p>
-        If you learned with Rabbi Ebner — in a shiur, a chavruta, or a
-        hallway conversation — there&rsquo;s a good chance you&rsquo;re
-        sitting on something we don&rsquo;t have yet: an old cassette, a Zoom
-        recording, typed-up notes, a letter, a poem he wrote you. We&rsquo;d
-        love to add it to the archive.
-      </p>
+      <p>{contribute.intro}</p>
+
+      <InkDivider />
+
       <ContactForm
         formId={process.env.NEXT_PUBLIC_FORMSPREE_CONTRIBUTE_ID}
         fields={FIELDS}

@@ -1,19 +1,17 @@
 import ContactForm from '@/components/ContactForm'
+import InkDivider from '@/components/InkDivider'
+import content from '@/content/site-content.json'
 import tributes from '@/data/tributes.json'
 
 export const metadata = { title: 'Memories & Tributes' }
 
 export default function TributesPage() {
+  const { tributes: tributesContent } = content
   return (
     <div className="page">
+      <p className="label">{tributesContent.eyebrow}</p>
       <h1>In His Own Students&rsquo; Words</h1>
-      <p>
-        Rabbi Ebner shaped the way thousands of people learn, teach, and
-        think. If he taught you something you still carry — a line, a
-        niggun, a way of asking a question — we&rsquo;d love for you to
-        share it here. Submissions are lightly reviewed before they&rsquo;re
-        posted.
-      </p>
+      <p>{tributesContent.intro}</p>
 
       <ContactForm
         formId={process.env.NEXT_PUBLIC_FORMSPREE_TRIBUTE_ID}
@@ -32,7 +30,9 @@ export default function TributesPage() {
         submitLabel="Share This"
       />
 
-      <h2 style={{ marginTop: 44 }}>Shared So Far</h2>
+      <InkDivider />
+
+      <h2>Shared So Far</h2>
       {tributes.length === 0 ? (
         <p className="muted">
           Be the first to share a memory. Approved submissions will appear

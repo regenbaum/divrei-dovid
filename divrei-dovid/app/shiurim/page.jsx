@@ -1,5 +1,7 @@
 import { getAllShiurim } from '@/lib/content'
 import ShiurimBrowser from '@/components/ShiurimBrowser'
+import InkDivider from '@/components/InkDivider'
+import content from '@/content/site-content.json'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,9 +12,11 @@ export const metadata = {
 
 export default async function ShiurimPage() {
   const shiurim = await getAllShiurim()
+  const { shiurim: shiurimContent } = content
 
   return (
     <div className="page">
+      <p className="label">{shiurimContent.eyebrow}</p>
       <h1>Shiurim</h1>
       <p className="subtitle">
         {shiurim.length > 0
@@ -32,6 +36,8 @@ export default async function ShiurimPage() {
           </a>.
         </p>
       )}
+
+      <InkDivider />
 
       <ShiurimBrowser shiurim={shiurim} />
     </div>

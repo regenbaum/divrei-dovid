@@ -1,4 +1,6 @@
 import ContactForm from '@/components/ContactForm'
+import InkDivider from '@/components/InkDivider'
+import content from '@/content/site-content.json'
 
 export const metadata = { title: 'Support the Project' }
 
@@ -21,15 +23,15 @@ const FIELDS = [
 ]
 
 export default function SupportPage() {
+  const { support } = content
   return (
     <div className="page">
+      <p className="label">{support.eyebrow}</p>
       <h1>Help Carry This Forward</h1>
-      <p>
-        There&rsquo;s no single way to help. Some people have an hour a week
-        to help transcribe or organize. Some are in a position to help
-        sustain the hosting and printing costs going forward. Some just want
-        to say hello. All of it matters — we read every message.
-      </p>
+      <p>{support.intro}</p>
+
+      <InkDivider />
+
       <ContactForm
         formId={process.env.NEXT_PUBLIC_FORMSPREE_SUPPORT_ID}
         fields={FIELDS}
