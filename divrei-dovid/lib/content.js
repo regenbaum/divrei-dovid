@@ -18,25 +18,47 @@ export async function getAllShiurim() {
     return []
   }
 
-  const params = new URLSearchParams({
-    q: `'${FOLDER_ID}' in parents and trashed = false`,
-    fields: 'files(id,name,mimeType,size,createdTime,webViewLink)',
-    pageSize: '1000',
-    key: API_KEY,
-  })
-
   try {
-    const res = await fetch(
-      `https://www.googleapis.com/drive/v3/files?${params.toString()}`,
-      { cache: 'no-store' }
-    )
-    if (!res.ok) {
-      console.error('Google Drive API error:', res.status, await res.text())
-      return []
+    const files = []
+    const folderQueue = [FOLDER_ID]
+    const visited = new Set()
+    let safetyCounter = 0
+
+    // The archive is organized as topic subfolders (Articles, Hasidut,
+    // Maharal, etc.), so we need to walk the whole tree, not just the
+    // top-level folder, to find the actual recordings.
+    while (folderQueue.length > 0 && safetyCounter < 500) {
+      const currentFolder = folderQueue.shift()
+      if (visited.has(currentFolder)) continue
+      visited.add(currentFolder)
+      safetyCounter += 1
+
+      const params = new URLSearchParams({
+        q: `'${currentFolder}' in parents and trashed = false`,
+        fields: 'files(id,name,mimeType,size,createdTime,webViewLink)',
+        pageSize: '1000',
+        key: API_KEY,
+      })
+
+      const res = await fetch(
+        `https://www.googleapis.com/drive/v3/files?${params.toString()}`,
+        { next: { revalidate: 3600 } } // re-crawl at most once an hour
+      )
+      if (!res.ok) {
+        console.error('Google Drive API error for folder', currentFolder, res.status, await res.text())
+        continue
+      }
+      const data = await res.json()
+      for (const item of data.files || []) {
+        if (item.mimeType?.includes('folder')) {
+          folderQueue.push(item.id)
+        } else {
+          files.push(item)
+        }
+      }
     }
-    const data = await res.json()
-    return (data.files || [])
-      .filter((f) => !f.mimeType?.includes('folder'))
+
+    return files
       .map(toShiur)
       .sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime))
   } catch (err) {

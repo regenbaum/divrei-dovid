@@ -3,8 +3,6 @@ import ShiurimBrowser from '@/components/ShiurimBrowser'
 import InkDivider from '@/components/InkDivider'
 import content from '@/content/site-content.json'
 
-export const dynamic = 'force-dynamic'
-
 export const metadata = {
   title: 'Shiurim',
   description: 'Browse recorded shiurim and chavrutot by Rabbi David Ebner zt"l.',
