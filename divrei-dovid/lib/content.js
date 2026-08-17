@@ -20,15 +20,16 @@ export async function getAllShiurim() {
 
   try {
     const files = []
-    const folderQueue = [FOLDER_ID]
+    // Each queue entry carries a "category" — the name of the top-level
+    // subfolder it descends from (Chanukah, Hasidut, Maharal, etc.), so
+    // every file inherits its topic from wherever it lives in the Drive
+    // folder structure, without any manual tagging.
+    const folderQueue = [{ id: FOLDER_ID, category: null }]
     const visited = new Set()
     let safetyCounter = 0
 
-    // The archive is organized as topic subfolders (Articles, Hasidut,
-    // Maharal, etc.), so we need to walk the whole tree, not just the
-    // top-level folder, to find the actual recordings.
     while (folderQueue.length > 0 && safetyCounter < 500) {
-      const currentFolder = folderQueue.shift()
+      const { id: currentFolder, category } = folderQueue.shift()
       if (visited.has(currentFolder)) continue
       visited.add(currentFolder)
       safetyCounter += 1
@@ -51,9 +52,12 @@ export async function getAllShiurim() {
       const data = await res.json()
       for (const item of data.files || []) {
         if (item.mimeType?.includes('folder')) {
-          folderQueue.push(item.id)
+          // Still at the root: this folder's own name becomes the
+          // category for everything inside it. Already inside a
+          // category: keep passing the same one down.
+          folderQueue.push({ id: item.id, category: category || item.name })
         } else {
-          files.push(item)
+          files.push({ ...item, category: category || 'General' })
         }
       }
     }
@@ -90,6 +94,7 @@ function toShiur(file) {
     rawName: file.name,
     mimeType: file.mimeType,
     createdTime: file.createdTime,
+    category: file.category || 'General',
     viewUrl: file.webViewLink || `https://drive.google.com/file/d/${file.id}/view`,
     downloadUrl: `https://drive.google.com/uc?export=download&id=${file.id}`,
   }

@@ -353,6 +353,22 @@ img { max-width: 100%; display: block; }
 .resource-list .r-title { font-weight: 600; }
 .resource-list .r-desc { font-family: var(--sans); font-size: 13px; color: var(--muted); }
 
+.filter-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.field select {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 15px;
+  padding: 11px 12px;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  color: var(--ink);
+}
+
 /* ---------- Forms ---------- */
 .form-box { background: var(--paper); border: 1px solid var(--border); padding: 32px; margin-top: 10px; }
 .field { margin-bottom: 18px; }
