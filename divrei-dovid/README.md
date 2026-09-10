@@ -48,18 +48,38 @@ Edit `lib/featured.js` and replace the placeholder `driveFileId` values with
 real Google Drive file IDs (open a file in Drive, copy the ID out of the
 URL between `/d/` and `/view`).
 
-## Adding approved tributes
+## Memories & Tributes page
 
-Tributes submitted through the form land in your Formspree inbox first.
-To publish an approved one, add it as an entry in `data/tributes.json`:
+The `/tributes` page has two parts:
 
-```json
-[
-  { "name": "Jane Doe", "display": "named", "connection": "Yeshivat HaMivtar", "memory": "..." }
-]
-```
+- **Featured content** (top of page) — things only you add: Yahrzeit
+  shiurim, articles, memorial recordings. Manage this from
+  `/admin/tributes` — nothing here needs approval since you're the one
+  adding it.
+- **Public submissions** (bottom of page) — visitors can share a memory
+  (text), a link to an outside article/recording (with an automatically
+  fetched preview image, or their own uploaded photo), or both. **Nothing
+  a visitor submits appears on the site until you approve it** at
+  `/admin/tributes` — submissions sit in a private pending queue until
+  then, and you also get an email when something new comes in.
 
-Use `"display": "anonymous"` to hide the name.
+**Setup needed:** connect a free Blob store to the project so photo
+uploads have somewhere to go:
+1. In the Vercel dashboard, open this project → **Storage** tab
+2. **Create Database** → **Blob** → follow the prompts to connect it
+3. Vercel automatically adds the `BLOB_READ_WRITE_TOKEN` environment
+   variable for you — no copying/pasting a key required
+
+Everything else (the GitHub token, admin password, etc.) is already
+shared with the rest of the admin system — no separate setup.
+
+**How moderation works, in plain terms:** a submission never touches the
+public page directly. It's written to a private "pending" file in the
+repo, which only the admin panel can read. When you click Approve, it's
+moved into the "approved" file (which the public page actually reads
+from) and removed from pending. Reject just removes it from pending.
+Both actions commit to GitHub and trigger a quick redeploy, same as
+editing site text.
 
 ## Editing site text from the admin panel
 

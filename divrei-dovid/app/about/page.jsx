@@ -53,6 +53,16 @@ export default function AboutPage() {
 
       <RichText text={about.bioText} />
 
+      <p className="label">{about.graveEyebrow}</p>
+      <figure className="portrait-frame" style={{ width: 320 }}>
+        <img
+          src="/rabbi-ebner-kever.jpg"
+          alt="The gravestone (matzeva) of Rabbi David Ebner zt&quot;l on the Mount of Olives, Jerusalem"
+        />
+        <figcaption>His matzeva, Mount of Olives, Jerusalem</figcaption>
+      </figure>
+      <RichText text={about.graveText} />
+
       <p style={{ textAlign: 'center', fontSize: '20px' }}>יהי זכרו ברוך</p>
       <p className="subtitle">{about.sourceNote}</p>
     </div>

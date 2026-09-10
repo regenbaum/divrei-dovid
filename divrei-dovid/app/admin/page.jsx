@@ -91,7 +91,10 @@ export default function AdminDashboard() {
           <p className="label">Admin</p>
           <h1>Edit Site Text</h1>
         </div>
-        <button className="btn btn-outline" onClick={handleLogout} type="button">Log Out</button>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <a className="btn btn-outline" href="/admin/tributes">Manage Tributes</a>
+          <button className="btn btn-outline" onClick={handleLogout} type="button">Log Out</button>
+        </div>
       </div>
       <p className="subtitle">
         Edit any text below, then click Save. Changes are committed directly

@@ -2,7 +2,7 @@ import InkDivider from '@/components/InkDivider'
 import content from '@/content/site-content.json'
 
 export const metadata = {
-  title: 'Writings',
+  title: 'Other Teachings',
   description: 'Where to find Rabbi David Ebner\'s writings, poetry, and shiurim across the web.',
 }
 
