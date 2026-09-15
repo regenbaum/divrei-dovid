@@ -35,7 +35,7 @@ export default function AboutPage() {
       />
 
       <p className="label">{about.eyebrow}</p>
-      <h1>About This Project</h1>
+      <h1>{about.heading}</h1>
 
       <RichText text={about.projectIntro} />
 
@@ -44,7 +44,7 @@ export default function AboutPage() {
       <InkDivider />
 
       <p className="label">{about.bioEyebrow}</p>
-      <h2 style={{ marginTop: 4 }}>Rabbi David Ebner zt&quot;l (1945&ndash;2025)</h2>
+      <h2 style={{ marginTop: 4 }}>{about.bioHeading}</h2>
 
       <figure className="portrait-frame">
         <img src="/rabbi-ebner.jpg" alt="Rabbi David Ebner zt&quot;l" />
@@ -63,7 +63,7 @@ export default function AboutPage() {
       </figure>
       <RichText text={about.graveText} />
 
-      <p style={{ textAlign: 'center', fontSize: '20px' }}>יהי זכרו ברוך</p>
+      <p style={{ textAlign: 'center', fontSize: '20px' }}>{about.closingLine}</p>
       <p className="subtitle">{about.sourceNote}</p>
     </div>
   )

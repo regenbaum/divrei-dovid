@@ -11,8 +11,8 @@ export default function HomePage() {
       <section className="hero">
         <InkBlot />
         <p className="label">{home.heroLabel}</p>
-        <h1 className="hebrew-title">דברי דוד</h1>
-        <h2 className="hero-sub">Divrei Dovid</h2>
+        <h1 className="hebrew-title">{home.heroTitleHebrew}</h1>
+        <h2 className="hero-sub">{home.heroTitleEnglish}</h2>
         <p className="hero-copy">{home.heroCopy}</p>
         <div className="hero-actions">
           <Link className="btn btn-primary" href="/shiurim">Browse the Shiurim</Link>
@@ -31,8 +31,8 @@ export default function HomePage() {
               <rect x="17.5" y="14" width="4" height="6" rx="1.2" />
             </svg>
           </div>
-          <h3>Recorded Shiurim</h3>
-          <p>Hours of chavrutot and shiurim, gradually being organized and made accessible.</p>
+          <h3>{home.feature1Title}</h3>
+          <p>{home.feature1Desc}</p>
         </Link>
         <Link href="/writings" className="feature">
           <div className="feature-icon">
@@ -41,8 +41,8 @@ export default function HomePage() {
               <path d="M20 5.5c-2.5-1-5-1-7 0v14c2-1 4.5-1 7 0z" />
             </svg>
           </div>
-          <h3>Writings &amp; Poetry</h3>
-          <p>Essays, marginalia, and three published collections of his poetry.</p>
+          <h3>{home.feature2Title}</h3>
+          <p>{home.feature2Desc}</p>
         </Link>
         <Link href="/teshuva" className="feature">
           <div className="feature-icon">
@@ -50,8 +50,8 @@ export default function HomePage() {
               <path d="M20 3 4 12l7 2 2 7z" />
             </svg>
           </div>
-          <h3>The Dance of Teshuva</h3>
-          <p>A new reader of his essays and poems on teshuva, for the Yamim Noraim.</p>
+          <h3>{home.feature3Title}</h3>
+          <p>{home.feature3Desc}</p>
         </Link>
       </section>
 

@@ -39,7 +39,7 @@ export default function ContributePage() {
   return (
     <div className="page">
       <p className="label">{contribute.eyebrow}</p>
-      <h1>Do You Have a Recording, or Something He Wrote?</h1>
+      <h1>{contribute.heading}</h1>
       <p>{contribute.intro}</p>
 
       <InkDivider />

@@ -7,7 +7,8 @@ export default function Header() {
       <nav className="nav">
         <Link href="/shiurim">Shiurim</Link>
         <Link href="/writings">Other Teachings</Link>
-        <Link href="/teshuva">Teshuva Reader</Link>
+        <Link href="/teshuva">The Dance of Teshuva</Link>
+        <Link href="/tributes">Tributes</Link>
         <Link href="/get-involved">Get Involved</Link>
         <Link href="/about">About</Link>
       </nav>

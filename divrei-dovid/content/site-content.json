@@ -6,7 +6,15 @@
     "quoteAttribution": "Rabbi David Ebner, \"The Library of Everything\"",
     "calloutLabel": "New · For the Yamim Noraim",
     "calloutTitle": "The Dance of Teshuva",
-    "calloutCopy": "An 1840 reader of Rav Ebner's essays and poems on teshuva, with an introduction by Rabbi Dovid Bashevkin."
+    "calloutCopy": "An 1840 reader of Rav Ebner's essays and poems on teshuva, with an introduction by Rabbi Dovid Bashevkin.",
+    "heroTitleHebrew": "דברי דוד",
+    "heroTitleEnglish": "Divrei Dovid",
+    "feature1Title": "Recorded Shiurim",
+    "feature1Desc": "Hours of chavrutot and shiurim, gradually being organized and made accessible.",
+    "feature2Title": "Writings & Poetry",
+    "feature2Desc": "Essays, marginalia, and three published collections of his poetry.",
+    "feature3Title": "The Dance of Teshuva",
+    "feature3Desc": "A new reader of his essays and poems on teshuva, for the Yamim Noraim."
   },
   "about": {
     "eyebrow": "The Story Behind Divrei Dovid",
@@ -15,33 +23,63 @@
     "bioText": "Rabbi David Ebner was born in Bradford, Pennsylvania, in 1945. He received semikha from Yeshiva University, where he studied under Rabbi Joseph B. Soloveitchik, and went on to pursue graduate studies in sociology and Talmud. Before making aliyah, he taught sociology and served as Assistant Director of the Institute for Jewish Life of the United Jewish Communities.\n\nIn 1982, Rabbi Ebner and his family moved to Israel, where his life's true calling emerged. For more than two decades he served as Mashgiach Ruchani at Yeshivat HaMivtar in Jerusalem and Efrat, alongside his close friend and partner Rabbi Chaim Brovender. He later helped found Yeshivat Eretz HaTzvi in Jerusalem, where he served as Rosh Yeshiva and spiritual guide. He was also one of the founders of ATID, where he mentored generations of Jewish educators, and he taught for years at ATID–WebYeshiva.org.\n\nGenerations of students remember him not only as a teacher of Gemara, but as a rebbe who wove together Halacha, Chassidut, poetry, art, psychology, and literature into what one former talmid called a \"Library of Everything.\" He was as comfortable discussing the Sfas Emes as he was J.D. Salinger, and he taught his students to bring their whole selves — doubts, gifts, and all — into the Beit Midrash. Many describe him as a confidant as much as a teacher: someone who carried their questions and struggles with deep trust and quiet care.\n\nRabbi Ebner was also a poet, publishing three collections: The Library of Everything, Perhaps This Poem, and Dance Words. His writing, like his teaching, moved fluidly between the sacred and the everyday, reflecting his belief that beauty — in art, music, and language — was itself a doorway to something greater.\n\nRabbi Ebner passed away in Jerusalem on September 7, 2025, at the age of 80. He is remembered by his family, his many students across the world, and everyone whose life he touched.",
     "sourceNote": "Bio compiled from Tradition Online, the London School of Jewish Studies, Eretz Hatzvi, ATID, and tributes written by his students. Corrections and additions are welcome — please contact us.",
     "graveEyebrow": "His Resting Place",
-    "graveText": "Rabbi Ebner is buried on the Mount of Olives in Jerusalem. His matzeva (gravestone) describes him as a beloved husband, father, and grandfather — a pillar for his family; the founder and Rosh Yeshiva of Yeshivat Eretz HaTzvi and Mashgiach Ruchani of Yeshivat HaMivtar; a talmid chacham of great depth, a man of many talents, a poet, and a man of spirit, full of grace, wisdom, and knowledge.\n\nIt notes that he pursued truth because it was true, that he loved kindness and walked humbly with his G-d, and that he raised many students who illuminate the world with his Torah and his way — and who were to him like sons."
+    "graveText": "Rabbi Ebner is buried on the Mount of Olives in Jerusalem. His matzeva (gravestone) describes him as a beloved husband, father, and grandfather — a pillar for his family; the founder and Rosh Yeshiva of Yeshivat Eretz HaTzvi and Mashgiach Ruchani of Yeshivat HaMivtar; a talmid chacham of great depth, a man of many talents, a poet, and a man of spirit, full of grace, wisdom, and knowledge.\n\nIt notes that he pursued truth because it was true, that he loved kindness and walked humbly with his G-d, and that he raised many students who illuminate the world with his Torah and his way — and who were to him like sons.",
+    "heading": "About This Project",
+    "bioHeading": "Rabbi David Ebner zt\"l (1945–2025)",
+    "closingLine": "יהי זכרו ברוך"
   },
   "writings": {
     "eyebrow": "Read",
-    "intro": "Several platforms already host pieces of Rabbi Ebner's legacy. This page brings them together in one place."
+    "intro": "Several platforms already host pieces of Rabbi Ebner's legacy. This page brings them together in one place.",
+    "heading": "Where to Find His Torah",
+    "closingNote": "Also published: The Library of Everything, Perhaps This Poem, and Dance Words (poetry collections)."
   },
   "shiurim": {
-    "eyebrow": "Listen"
+    "eyebrow": "Listen",
+    "heading": "Shiurim"
   },
   "teshuva": {
     "eyebrow": "For the Yamim Noraim",
-    "intro": "We are excited to share a series of beautiful essays and poems on teshuva, written by Rav David Ebner zt\"l. Those who are familiar with Rav Ebner and his Torah know that his words have the power to reach the most seasoned teshuva-season participant, and those newer to the dance of repentance.\n\nWe are grateful to our partners at 1840 for producing and distributing this reader, and are excited that it includes an introductory essay from Rabbi Dovid Bashevkin.\n\nAnonymous donors have sponsored the printing and distribution of these readers in Rav Ebner's memory. Our hope is that this reader will accompany daveners in shuls across the world this holiday season."
+    "intro": "The Dance of Teshuva is a collection of Rav David Ebner zt\"l's essays and poetry on the Days of Awe — short pieces, written for reflection in the weeks when a Jew is meant to be doing something about his or her life. They draw on the Torah of Pshischa, Kotzk, Rebbe Nachman, and the Alter of Novardok, with Thoreau and Wordsworth wandering through when they have something to add.\n\nThe reader was put together by his students, with a letter of their own introducing it, in the year after his passing.",
+    "heading": "The Dance of Teshuva",
+    "formHeading": "Request Copies",
+    "partnershipHeading": "A Partnership with 18Forty",
+    "partnershipText": "The Dance of Teshuva is produced and distributed in partnership with 18Forty, the Jewish media and education project led by Rabbi Dovid Bashevkin. When Rav Ebner's students approached 18Forty about collecting his writings into a reader like this one, the team said they jumped at the opportunity — they'd long found that his teachings resonated with the same questions 18Forty tries to explore in its own work. Anonymous donors sponsored the printing and distribution of physical copies in Rav Ebner's memory, so that shuls across the world could have them this holiday season.",
+    "introEssayHeading": "An Introduction, from a Longtime Student",
+    "introEssayText": "Ahead of Rosh Hashana, Rabbi Mijal Bitton featured the reader in her newsletter, and asked Daniel Bonner — a student of Rav Ebner's for over a decade, first in yeshiva and later weekly over Skype and Zoom until his passing — to introduce one of its essays.\n\nBonner describes him as an “Elul Jew”: most at home in the season of self-examination, open with his students about his own struggles in life, in Torah, and with God. He writes about Rav Ebner's insistence that a real Jewish education has to be lived, not just learned — and about the poet's ear he brought to these Ten Days of Repentance, hearing in them not performance or “fakery,” but what Bonner calls “lived aspiration.”",
+    "introEssayLinkLabel": "Read Daniel Bonner's full introduction on Substack",
+    "articleLinkLabel": "Read the full reader and download the PDF at 18Forty"
   },
   "getInvolved": {
     "eyebrow": "Get Involved",
-    "intro": "Divrei Dovid is entirely a labor of love — built and maintained by students who learned from Rabbi Ebner and want his Torah to keep reaching people. There's no single way to help."
+    "intro": "Divrei Dovid is entirely a labor of love — built and maintained by students who learned from Rabbi Ebner and want his Torah to keep reaching people. There's no single way to help.",
+    "heading": "Help Carry This Forward",
+    "card1Title": "Share a Recording or Writing",
+    "card1Desc": "Have a recording, notes, or something he wrote sitting on an old drive? We’d love to add it to the archive.",
+    "card2Title": "Support the Project",
+    "card2Desc": "Volunteer, help organize or transcribe, or help sustain the hosting and printing costs going forward.",
+    "card3Title": "Share a Memory",
+    "card3Desc": "If he taught you something you still carry, we’d love for you to share it here."
   },
   "support": {
     "eyebrow": "Support",
-    "intro": "There's no single way to help. Some people have an hour a week to help transcribe or organize. Some are in a position to help sustain the hosting and printing costs going forward. Some just want to say hello. All of it matters — we read every message."
+    "intro": "There's no single way to help. Some people have an hour a week to help transcribe or organize. Some are in a position to help sustain the hosting and printing costs going forward. Some just want to say hello. All of it matters — we read every message.",
+    "heading": "Help Carry This Forward"
   },
   "contribute": {
     "eyebrow": "Contribute",
-    "intro": "If you learned with Rabbi Ebner — in a shiur, a chavruta, or a hallway conversation — there's a good chance you're sitting on something we don't have yet: an old cassette, a Zoom recording, typed-up notes, a letter, a poem he wrote you. We'd love to add it to the archive."
+    "intro": "If you learned with Rabbi Ebner — in a shiur, a chavruta, or a hallway conversation — there's a good chance you're sitting on something we don't have yet: an old cassette, a Zoom recording, typed-up notes, a letter, a poem he wrote you. We'd love to add it to the archive.",
+    "heading": "Do You Have a Recording, or Something He Wrote?"
   },
   "tributes": {
     "eyebrow": "In His Own Students' Words",
-    "intro": "Rabbi Ebner shaped the way thousands of people learn, teach, and think. If he taught you something you still carry — a line, a niggun, a way of asking a question — we'd love for you to share it here. Submissions are lightly reviewed before they're posted."
+    "intro": "Rabbi Ebner shaped the way thousands of people learn, teach, and think. If he taught you something you still carry — a line, a niggun, a way of asking a question — we'd love for you to share it here: a written memory, a link to something written about him, or a favorite photo of him (or of the two of you). Submissions are lightly reviewed before they're posted.",
+    "heading": "Memories & Tributes",
+    "subtitle": "Recordings, articles, and memories shared in honor of Rabbi David Ebner zt\"l.",
+    "featuredHeading": "From Divrei Dovid",
+    "sharedHeading": "Shared So Far"
+  },
+  "footer": {
+    "tagline": "In loving memory · 1945–2025"
   }
 }

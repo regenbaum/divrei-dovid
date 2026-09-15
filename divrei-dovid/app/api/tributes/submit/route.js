@@ -51,25 +51,36 @@ export async function POST(req) {
     link = candidate
   }
 
-  // imageUrl comes from the Blob upload step (see /api/tributes/upload) —
-  // only accept it if it actually looks like an http(s) URL.
-  const imageUrl = body.imageUrl && isSafeHttpUrl(body.imageUrl) ? body.imageUrl : null
+  // imageUrls come from the Blob upload step (see /api/tributes/upload) —
+  // only accept items that actually look like http(s) URLs, and cap the
+  // count server-side too (the form already caps at 3, but never trust
+  // the client alone for a limit like this).
+  const MAX_IMAGES = 3
+  let imageUrls = []
+  if (Array.isArray(body.imageUrls)) {
+    imageUrls = body.imageUrls
+      .filter((u) => typeof u === 'string' && isSafeHttpUrl(u))
+      .slice(0, MAX_IMAGES)
+  }
 
   if (!name) {
     return NextResponse.json({ error: 'Please include your name.' }, { status: 400 })
   }
-  if (!story && !link) {
+  if (!story && !link && imageUrls.length === 0) {
     return NextResponse.json(
-      { error: 'Please share a memory, a link, or both.' },
+      { error: 'Please share a memory, a link, or a photo.' },
       { status: 400 }
     )
   }
 
   // Best-effort link preview — only fetched if the submitter didn't
-  // already give us a title/description/image of their own.
+  // already give us a title or upload their own photo(s).
   let linkPreview = null
-  if (link && (!linkTitleInput || !imageUrl)) {
+  if (link && (!linkTitleInput || imageUrls.length === 0)) {
     linkPreview = await fetchLinkPreview(link)
+  }
+  if (imageUrls.length === 0 && linkPreview?.image) {
+    imageUrls = [linkPreview.image]
   }
 
   const entry = {
@@ -81,7 +92,7 @@ export async function POST(req) {
     link,
     linkTitle: linkTitleInput || linkPreview?.title || '',
     linkDescription: linkDescriptionInput || linkPreview?.description || '',
-    imageUrl: imageUrl || linkPreview?.image || null,
+    imageUrls,
     submittedAt: new Date().toISOString(),
   }
 

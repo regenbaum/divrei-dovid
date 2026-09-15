@@ -27,7 +27,7 @@ export default function SupportPage() {
   return (
     <div className="page">
       <p className="label">{support.eyebrow}</p>
-      <h1>Help Carry This Forward</h1>
+      <h1>{support.heading}</h1>
       <p>{support.intro}</p>
 
       <InkDivider />

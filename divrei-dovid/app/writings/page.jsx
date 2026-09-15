@@ -54,7 +54,7 @@ export default function WritingsPage() {
   return (
     <div className="page">
       <p className="label">{writings.eyebrow}</p>
-      <h1>Where to Find His Torah</h1>
+      <h1>{writings.heading}</h1>
       <p className="subtitle">{writings.intro}</p>
 
       <InkDivider />
@@ -69,11 +69,7 @@ export default function WritingsPage() {
           </li>
         ))}
       </ul>
-      <p className="subtitle" style={{ marginTop: 30 }}>
-        Also published: <em>The Library of Everything</em>,{' '}
-        <em>Perhaps This Poem</em>, and <em>Dance Words</em> (poetry
-        collections).
-      </p>
+      <p className="subtitle" style={{ marginTop: 30 }}>{writings.closingNote}</p>
     </div>
   )
 }

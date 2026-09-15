@@ -15,7 +15,7 @@ export default async function ShiurimPage() {
   return (
     <div className="page">
       <p className="label">{shiurimContent.eyebrow}</p>
-      <h1>Shiurim</h1>
+      <h1>{shiurimContent.heading}</h1>
       <p className="subtitle">
         {shiurim.length > 0
           ? `${shiurim.length} recorded shiurim and chavrutot, and growing.`

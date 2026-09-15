@@ -3,12 +3,15 @@
 import { useState } from 'react'
 import { uploadImageToBlob } from '@/lib/blobUpload'
 
+const MAX_PHOTOS = 3
+const MAX_PHOTO_BYTES = 8 * 1024 * 1024
+
 export default function TributeSubmissionForm() {
   const [form, setForm] = useState({
     name: '', displayPreference: 'named', connection: '',
     story: '', link: '', website: '', // "website" is the honeypot field
   })
-  const [imageFile, setImageFile] = useState(null)
+  const [imageFiles, setImageFiles] = useState([])
   const [status, setStatus] = useState('idle') // idle | sending | done | error
   const [error, setError] = useState('')
 
@@ -16,20 +19,67 @@ export default function TributeSubmissionForm() {
     setForm((prev) => ({ ...prev, [field]: value }))
   }
 
+  function handleFilesChange(e) {
+    const picked = Array.from(e.target.files || [])
+    if (picked.length === 0) return
+
+    const accepted = []
+    for (const file of picked) {
+      const isHeic = /\.(heic|heif)$/i.test(file.name) || /heic|heif/i.test(file.type)
+      if (isHeic) {
+        setError(
+          'One of those looks like an iPhone HEIC photo, which most browsers can\u2019t display. ' +
+          'On your phone: open it in Photos, tap Share, then "Save to Files" or email it to ' +
+          'yourself \u2014 both usually convert it to JPEG. Then upload that instead.'
+        )
+        setStatus('error')
+        continue
+      }
+      if (file.size > MAX_PHOTO_BYTES) {
+        setError(`"${file.name}" is larger than 8MB. Please choose a smaller photo.`)
+        setStatus('error')
+        continue
+      }
+      accepted.push(file)
+    }
+
+    setImageFiles((prev) => {
+      const combined = [...prev, ...accepted]
+      if (combined.length > MAX_PHOTOS) {
+        setError(`Only up to ${MAX_PHOTOS} photos per submission \u2014 using the first ${MAX_PHOTOS}.`)
+        setStatus('error')
+        return combined.slice(0, MAX_PHOTOS)
+      }
+      return combined
+    })
+    e.target.value = ''
+  }
+
+  function removeImage(index) {
+    setImageFiles((prev) => prev.filter((_, i) => i !== index))
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     setStatus('sending')
     setError('')
-    try {
-      let imageUrl = null
-      if (imageFile) {
-        imageUrl = await uploadImageToBlob(imageFile)
-      }
 
+    let imageUrls = []
+    if (imageFiles.length > 0) {
+      try {
+        imageUrls = await Promise.all(imageFiles.map((f) => uploadImageToBlob(f)))
+      } catch (err) {
+        setError('Uploading your photos failed: ' + (err?.message || 'unknown error') + '. You can try again, or share your memory without photos.')
+        setStatus('error')
+        return
+      }
+    }
+
+    try {
       const res = await fetch('/api/tributes/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, imageUrl }),
+        body: JSON.stringify({ ...form, imageUrls }),
       })
       const json = await res.json().catch(() => ({}))
 
@@ -40,7 +90,7 @@ export default function TributeSubmissionForm() {
         setStatus('error')
       }
     } catch (err) {
-      setError('Something went wrong uploading your photo. Please try again.')
+      setError('Network error submitting the form: ' + (err?.message || 'unknown error') + '. Please try again.')
       setStatus('error')
     }
   }
@@ -93,7 +143,7 @@ export default function TributeSubmissionForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="t-story">Your memory (optional if you're sharing a link instead)</label>
+        <label htmlFor="t-story">Your memory (optional if you're sharing a link or photo instead)</label>
         <textarea id="t-story" value={form.story} onChange={(e) => update('story', e.target.value)} />
       </div>
 
@@ -107,19 +157,50 @@ export default function TributeSubmissionForm() {
           onChange={(e) => update('link', e.target.value)}
         />
         <p className="form-note" style={{ marginTop: 6 }}>
-          We&rsquo;ll try to pull a preview image from the link automatically —
-          or upload your own photo below and we&rsquo;ll use that instead.
+          We&rsquo;ll try to pull a preview image from the link automatically (for
+          a YouTube link, for example, that&rsquo;s its video thumbnail) &mdash; or
+          upload your own photo below and we&rsquo;ll use that instead.
         </p>
       </div>
 
       <div className="field">
-        <label htmlFor="t-image">Photo (optional)</label>
+        <label htmlFor="t-image">Photos (optional)</label>
         <input
           id="t-image"
           type="file"
+          multiple
           accept="image/jpeg,image/png,image/webp,image/gif"
-          onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+          onChange={handleFilesChange}
+          disabled={imageFiles.length >= MAX_PHOTOS}
         />
+        <p className="form-note" style={{ marginTop: 6 }}>
+          Up to {MAX_PHOTOS} photos, 8MB each.
+        </p>
+        {imageFiles.length > 0 && (
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 10 }}>
+            {imageFiles.map((file, i) => (
+              <div key={i} style={{ position: 'relative' }}>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt=""
+                  style={{ width: 90, height: 90, objectFit: 'cover', border: '1px solid var(--border-strong)' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeImage(i)}
+                  aria-label={`Remove ${file.name}`}
+                  style={{
+                    position: 'absolute', top: -8, right: -8, width: 22, height: 22,
+                    borderRadius: '50%', border: '1px solid var(--border-strong)',
+                    background: '#fff', cursor: 'pointer', fontSize: 12, lineHeight: 1,
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <button className="btn btn-primary" type="submit" disabled={status === 'sending'}>

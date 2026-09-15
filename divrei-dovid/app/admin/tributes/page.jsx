@@ -110,8 +110,12 @@ export default function AdminTributesPage() {
               {item.linkDescription && <><br />{item.linkDescription}</>}
             </p>
           )}
-          {item.imageUrl && (
-            <img src={item.imageUrl} alt="" style={{ maxWidth: 200, border: '1px solid var(--border)', marginBottom: 10 }} />
+          {(item.imageUrls || (item.imageUrl ? [item.imageUrl] : [])).length > 0 && (
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
+              {(item.imageUrls || [item.imageUrl]).map((src, i) => (
+                <img key={i} src={src} alt="" style={{ width: 120, height: 120, objectFit: 'cover', border: '1px solid var(--border)' }} />
+              ))}
+            </div>
           )}
           <div style={{ display: 'flex', gap: 10 }}>
             <button

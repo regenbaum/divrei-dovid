@@ -6,21 +6,26 @@ import approved from '@/content/tributes-approved.json'
 
 export const metadata = { title: 'Memories & Tributes' }
 
+// Supports both the new "imageUrls" array and older single-"imageUrl"
+// entries, so nothing already saved ever breaks when this shape changes.
+function imagesOf(item) {
+  if (Array.isArray(item.imageUrls) && item.imageUrls.length > 0) return item.imageUrls
+  if (item.imageUrl) return [item.imageUrl]
+  return []
+}
+
 export default function TributesPage() {
-  const { tributes: tributesContent } = content
+  const { tributes: t } = content
 
   return (
     <div className="page">
       <p className="label">In Memoriam</p>
-      <h1>Memories &amp; Tributes</h1>
-      <p className="subtitle">
-        Recordings, articles, and memories shared in honor of Rabbi David
-        Ebner zt&quot;l.
-      </p>
+      <h1>{t.heading}</h1>
+      <p className="subtitle">{t.subtitle}</p>
 
       {featured.length > 0 && (
         <>
-          <h2 style={{ marginTop: 8 }}>From Divrei Dovid</h2>
+          <h2 style={{ marginTop: 8 }}>{t.featuredHeading}</h2>
           <div className="card-grid">
             {featured.map((item) => (
               <a
@@ -47,40 +52,48 @@ export default function TributesPage() {
 
       <InkDivider />
 
-      <h2>{tributesContent.eyebrow}</h2>
-      <p>{tributesContent.intro}</p>
+      <h2>{t.eyebrow}</h2>
+      <p>{t.intro}</p>
 
       <TributeSubmissionForm />
 
-      <h2 style={{ marginTop: 44 }}>Shared So Far</h2>
+      <h2 style={{ marginTop: 44 }}>{t.sharedHeading}</h2>
       {approved.length === 0 ? (
         <p className="muted">
           Be the first to share a memory. Approved submissions will appear
           here.
         </p>
       ) : (
-        approved.map((t) => (
-          <div className="tribute" key={t.id}>
-            {t.imageUrl && (
-              <img
-                src={t.imageUrl}
-                alt=""
-                style={{ maxWidth: 240, marginBottom: 12, border: '1px solid var(--border)' }}
-              />
-            )}
-            {t.story && <p>&ldquo;{t.story}&rdquo;</p>}
-            {t.link && (
-              <p style={{ fontFamily: 'var(--sans)', fontSize: 14 }}>
-                <a href={t.link} target="_blank" rel="noreferrer">{t.linkTitle || t.link}</a>
-                {t.linkDescription && <><br />{t.linkDescription}</>}
+        approved.map((item) => {
+          const images = imagesOf(item)
+          return (
+            <div className="tribute" key={item.id}>
+              {images.length > 0 && (
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 12 }}>
+                  {images.map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt=""
+                      style={{ width: 160, height: 160, objectFit: 'cover', border: '1px solid var(--border)' }}
+                    />
+                  ))}
+                </div>
+              )}
+              {item.story && <p>&ldquo;{item.story}&rdquo;</p>}
+              {item.link && (
+                <p style={{ fontFamily: 'var(--sans)', fontSize: 14 }}>
+                  <a href={item.link} target="_blank" rel="noreferrer">{item.linkTitle || item.link}</a>
+                  {item.linkDescription && <><br />{item.linkDescription}</>}
+                </p>
+              )}
+              <p className="who">
+                &mdash; {item.displayPreference === 'anonymous' ? 'A former student' : item.name}
+                {item.connection ? `, ${item.connection}` : ''}
               </p>
-            )}
-            <p className="who">
-              &mdash; {t.displayPreference === 'anonymous' ? 'A former student' : t.name}
-              {t.connection ? `, ${t.connection}` : ''}
-            </p>
-          </div>
-        ))
+            </div>
+          )
+        })
       )}
     </div>
   )
