@@ -70,6 +70,31 @@ export async function POST(req) {
         break
       }
 
+      case 'feature-from-approved': {
+        const { id } = body
+        const approved = await readJsonFile(FILES.approved, [])
+        const item = approved.find((a) => a.id === id)
+        if (!item) return NextResponse.json({ error: 'Submission not found.' }, { status: 404 })
+
+        const images = Array.isArray(item.imageUrls) && item.imageUrls.length > 0
+          ? item.imageUrls
+          : (item.imageUrl ? [item.imageUrl] : [])
+
+        const featured = await readJsonFile(FILES.featured, [])
+        featured.push({
+          id: randomUUID(),
+          title: item.displayPreference === 'anonymous' ? 'A Memory from a Former Student' : `A Memory from ${item.name}`,
+          url: item.link || '',
+          description: item.story || item.linkDescription || '',
+          imageUrl: images[0] || null,
+          addedAt: new Date().toISOString(),
+          sourceApprovedId: item.id,
+        })
+        const r = await writeJsonFile(FILES.featured, featured, `Feature approved tribute from ${item.name}`)
+        if (!r.ok) return NextResponse.json({ error: r.error }, { status: 500 })
+        break
+      }
+
       case 'delete-approved': {
         const { id } = body
         const approved = await readJsonFile(FILES.approved, [])

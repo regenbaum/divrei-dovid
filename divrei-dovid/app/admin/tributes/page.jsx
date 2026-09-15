@@ -151,14 +151,24 @@ export default function AdminTributesPage() {
           </p>
           {item.story && <p>&ldquo;{item.story}&rdquo;</p>}
           {item.link && <p style={{ fontFamily: 'var(--sans)', fontSize: 13 }}><a href={item.link} target="_blank" rel="noreferrer">{item.linkTitle || item.link}</a></p>}
-          <button
-            className="btn btn-outline"
-            type="button"
-            disabled={busyId === item.id}
-            onClick={() => runAction({ action: 'delete-approved', id: item.id })}
-          >
-            Remove
-          </button>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              className="btn btn-outline"
+              type="button"
+              disabled={busyId === item.id}
+              onClick={() => runAction({ action: 'feature-from-approved', id: item.id })}
+            >
+              Feature This
+            </button>
+            <button
+              className="btn btn-outline"
+              type="button"
+              disabled={busyId === item.id}
+              onClick={() => runAction({ action: 'delete-approved', id: item.id })}
+            >
+              Remove
+            </button>
+          </div>
         </div>
       ))}
 

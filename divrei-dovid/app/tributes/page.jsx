@@ -23,8 +23,14 @@ export default function TributesPage() {
       <h1>{t.heading}</h1>
       <p className="subtitle">{t.subtitle}</p>
 
+      <p>{t.intro}</p>
+      <p>
+        <a className="btn btn-primary" href="#share-memory">{t.shareButtonLabel}</a>
+      </p>
+
       {featured.length > 0 && (
         <>
+          <InkDivider />
           <h2 style={{ marginTop: 8 }}>{t.featuredHeading}</h2>
           <div className="card-grid">
             {featured.map((item) => (
@@ -52,12 +58,7 @@ export default function TributesPage() {
 
       <InkDivider />
 
-      <h2>{t.eyebrow}</h2>
-      <p>{t.intro}</p>
-
-      <TributeSubmissionForm />
-
-      <h2 style={{ marginTop: 44 }}>{t.sharedHeading}</h2>
+      <h2>{t.sharedHeading}</h2>
       {approved.length === 0 ? (
         <p className="muted">
           Be the first to share a memory. Approved submissions will appear
@@ -95,6 +96,13 @@ export default function TributesPage() {
           )
         })
       )}
+
+      <InkDivider />
+
+      <div id="share-memory">
+        <h2>{t.eyebrow}</h2>
+        <TributeSubmissionForm />
+      </div>
     </div>
   )
 }
