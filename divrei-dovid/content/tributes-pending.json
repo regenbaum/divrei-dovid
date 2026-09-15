@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "2b3d121e-22fc-4a0f-8536-390b4845113c",
+    "name": "Test Debug",
+    "displayPreference": "named",
+    "connection": "",
+    "story": "A debug test story",
+    "link": "",
+    "linkTitle": "",
+    "linkDescription": "",
+    "imageUrl": "https://kyzb0hrnovxhru5s.public.blob.vercel-storage.com/tributes/fake-test.jpg",
+    "submittedAt": "2026-09-15T07:44:05.278Z"
+  }
+]
