@@ -70,6 +70,44 @@ export async function POST(req) {
         break
       }
 
+      case 'edit-pending': {
+        const { id, name, connection, story, link, linkTitle, linkDescription } = body
+        const pending = await readJsonFile(FILES.pending, [])
+        const idx = pending.findIndex((p) => p.id === id)
+        if (idx === -1) return NextResponse.json({ error: 'Submission not found.' }, { status: 404 })
+        pending[idx] = {
+          ...pending[idx],
+          name: String(name || pending[idx].name).slice(0, 100),
+          connection: String(connection ?? pending[idx].connection ?? '').slice(0, 150),
+          story: String(story ?? pending[idx].story ?? '').slice(0, 5000),
+          link: String(link ?? pending[idx].link ?? '').slice(0, 500),
+          linkTitle: String(linkTitle ?? pending[idx].linkTitle ?? '').slice(0, 150),
+          linkDescription: String(linkDescription ?? pending[idx].linkDescription ?? '').slice(0, 400),
+        }
+        const r = await writeJsonFile(FILES.pending, pending, `Edit pending tribute from ${pending[idx].name}`)
+        if (!r.ok) return NextResponse.json({ error: r.error }, { status: 500 })
+        break
+      }
+
+      case 'edit-approved': {
+        const { id, name, connection, story, link, linkTitle, linkDescription } = body
+        const approved = await readJsonFile(FILES.approved, [])
+        const idx = approved.findIndex((a) => a.id === id)
+        if (idx === -1) return NextResponse.json({ error: 'Submission not found.' }, { status: 404 })
+        approved[idx] = {
+          ...approved[idx],
+          name: String(name || approved[idx].name).slice(0, 100),
+          connection: String(connection ?? approved[idx].connection ?? '').slice(0, 150),
+          story: String(story ?? approved[idx].story ?? '').slice(0, 5000),
+          link: String(link ?? approved[idx].link ?? '').slice(0, 500),
+          linkTitle: String(linkTitle ?? approved[idx].linkTitle ?? '').slice(0, 150),
+          linkDescription: String(linkDescription ?? approved[idx].linkDescription ?? '').slice(0, 400),
+        }
+        const r = await writeJsonFile(FILES.approved, approved, `Edit approved tribute from ${approved[idx].name}`)
+        if (!r.ok) return NextResponse.json({ error: r.error }, { status: 500 })
+        break
+      }
+
       case 'feature-from-approved': {
         const { id } = body
         const approved = await readJsonFile(FILES.approved, [])

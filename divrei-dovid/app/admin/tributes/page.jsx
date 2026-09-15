@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { uploadImageToBlob } from '@/lib/blobUpload'
 
+const EDIT_FIELDS = ['name', 'connection', 'story', 'link', 'linkTitle', 'linkDescription']
+
 export default function AdminTributesPage() {
   const [data, setData] = useState(null)
   const [status, setStatus] = useState('loading')
@@ -15,6 +17,11 @@ export default function AdminTributesPage() {
   const [newItem, setNewItem] = useState({ title: '', url: '', description: '' })
   const [newImageFile, setNewImageFile] = useState(null)
   const [addingFeatured, setAddingFeatured] = useState(false)
+
+  // editingKey is like "pending:<id>" or "approved:<id>" so pending and
+  // approved items never collide even if edited around the same time.
+  const [editingKey, setEditingKey] = useState(null)
+  const [editForm, setEditForm] = useState({})
 
   function load() {
     fetch('/api/admin/tributes')
@@ -54,6 +61,25 @@ export default function AdminTributesPage() {
     }
   }
 
+  function startEdit(section, item) {
+    setEditingKey(`${section}:${item.id}`)
+    const initial = {}
+    for (const f of EDIT_FIELDS) initial[f] = item[f] || ''
+    setEditForm(initial)
+  }
+
+  function cancelEdit() {
+    setEditingKey(null)
+    setEditForm({})
+  }
+
+  async function saveEdit(section, id) {
+    const action = section === 'pending' ? 'edit-pending' : 'edit-approved'
+    await runAction({ action, id, ...editForm })
+    setEditingKey(null)
+    setEditForm({})
+  }
+
   async function handleAddFeatured() {
     if (!newItem.title.trim()) {
       setError('Title is required.')
@@ -74,6 +100,43 @@ export default function AdminTributesPage() {
     } finally {
       setAddingFeatured(false)
     }
+  }
+
+  function EditForm({ section, id }) {
+    return (
+      <div>
+        <div className="field">
+          <label>Name</label>
+          <input value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} />
+        </div>
+        <div className="field">
+          <label>Connection</label>
+          <input value={editForm.connection} onChange={(e) => setEditForm({ ...editForm, connection: e.target.value })} />
+        </div>
+        <div className="field">
+          <label>Story</label>
+          <textarea rows={6} value={editForm.story} onChange={(e) => setEditForm({ ...editForm, story: e.target.value })} />
+        </div>
+        <div className="field">
+          <label>Link</label>
+          <input value={editForm.link} onChange={(e) => setEditForm({ ...editForm, link: e.target.value })} />
+        </div>
+        <div className="field">
+          <label>Link title</label>
+          <input value={editForm.linkTitle} onChange={(e) => setEditForm({ ...editForm, linkTitle: e.target.value })} />
+        </div>
+        <div className="field">
+          <label>Link description</label>
+          <textarea value={editForm.linkDescription} onChange={(e) => setEditForm({ ...editForm, linkDescription: e.target.value })} />
+        </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button className="btn btn-primary" type="button" disabled={busyId === id} onClick={() => saveEdit(section, id)}>
+            Save
+          </button>
+          <button className="btn btn-outline" type="button" onClick={cancelEdit}>Cancel</button>
+        </div>
+      </div>
+    )
   }
 
   if (status === 'loading') {
@@ -99,42 +162,41 @@ export default function AdminTributesPage() {
       )}
       {data?.pending?.map((item) => (
         <div className="form-box" key={item.id} style={{ marginBottom: 16 }}>
-          <p style={{ fontFamily: 'var(--sans)', fontSize: 12, color: 'var(--muted)', marginBottom: 6 }}>
-            {item.name} {item.displayPreference === 'anonymous' ? '(wants to post anonymously)' : ''}
-            {item.connection ? ` · ${item.connection}` : ''}
-          </p>
-          {item.story && <p>&ldquo;{item.story}&rdquo;</p>}
-          {item.link && (
-            <p style={{ fontFamily: 'var(--sans)', fontSize: 13 }}>
-              <a href={item.link} target="_blank" rel="noreferrer">{item.linkTitle || item.link}</a>
-              {item.linkDescription && <><br />{item.linkDescription}</>}
-            </p>
+          {editingKey === `pending:${item.id}` ? (
+            <EditForm section="pending" id={item.id} />
+          ) : (
+            <>
+              <p style={{ fontFamily: 'var(--sans)', fontSize: 12, color: 'var(--muted)', marginBottom: 6 }}>
+                {item.name} {item.displayPreference === 'anonymous' ? '(wants to post anonymously)' : ''}
+                {item.connection ? ` · ${item.connection}` : ''}
+              </p>
+              {item.story && <p style={{ whiteSpace: 'pre-wrap' }}>&ldquo;{item.story}&rdquo;</p>}
+              {item.link && (
+                <p style={{ fontFamily: 'var(--sans)', fontSize: 13 }}>
+                  <a href={item.link} target="_blank" rel="noreferrer">{item.linkTitle || item.link}</a>
+                  {item.linkDescription && <><br />{item.linkDescription}</>}
+                </p>
+              )}
+              {(item.imageUrls || (item.imageUrl ? [item.imageUrl] : [])).length > 0 && (
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
+                  {(item.imageUrls || [item.imageUrl]).map((src, i) => (
+                    <img key={i} src={src} alt="" style={{ width: 120, height: 120, objectFit: 'cover', border: '1px solid var(--border)' }} />
+                  ))}
+                </div>
+              )}
+              <div style={{ display: 'flex', gap: 10 }}>
+                <button className="btn btn-primary" type="button" disabled={busyId === item.id} onClick={() => runAction({ action: 'approve', id: item.id })}>
+                  Approve
+                </button>
+                <button className="btn btn-outline" type="button" disabled={busyId === item.id} onClick={() => startEdit('pending', item)}>
+                  Edit
+                </button>
+                <button className="btn btn-outline" type="button" disabled={busyId === item.id} onClick={() => runAction({ action: 'reject', id: item.id })}>
+                  Reject
+                </button>
+              </div>
+            </>
           )}
-          {(item.imageUrls || (item.imageUrl ? [item.imageUrl] : [])).length > 0 && (
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
-              {(item.imageUrls || [item.imageUrl]).map((src, i) => (
-                <img key={i} src={src} alt="" style={{ width: 120, height: 120, objectFit: 'cover', border: '1px solid var(--border)' }} />
-              ))}
-            </div>
-          )}
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button
-              className="btn btn-primary"
-              type="button"
-              disabled={busyId === item.id}
-              onClick={() => runAction({ action: 'approve', id: item.id })}
-            >
-              Approve
-            </button>
-            <button
-              className="btn btn-outline"
-              type="button"
-              disabled={busyId === item.id}
-              onClick={() => runAction({ action: 'reject', id: item.id })}
-            >
-              Reject
-            </button>
-          </div>
         </div>
       ))}
 
@@ -145,30 +207,29 @@ export default function AdminTributesPage() {
       )}
       {data?.approved?.map((item) => (
         <div className="tribute" key={item.id}>
-          <p className="who">
-            {item.displayPreference === 'anonymous' ? 'A former student' : item.name}
-            {item.connection ? `, ${item.connection}` : ''}
-          </p>
-          {item.story && <p>&ldquo;{item.story}&rdquo;</p>}
-          {item.link && <p style={{ fontFamily: 'var(--sans)', fontSize: 13 }}><a href={item.link} target="_blank" rel="noreferrer">{item.linkTitle || item.link}</a></p>}
-          <div style={{ display: 'flex', gap: 10 }}>
-            <button
-              className="btn btn-outline"
-              type="button"
-              disabled={busyId === item.id}
-              onClick={() => runAction({ action: 'feature-from-approved', id: item.id })}
-            >
-              Feature This
-            </button>
-            <button
-              className="btn btn-outline"
-              type="button"
-              disabled={busyId === item.id}
-              onClick={() => runAction({ action: 'delete-approved', id: item.id })}
-            >
-              Remove
-            </button>
-          </div>
+          {editingKey === `approved:${item.id}` ? (
+            <EditForm section="approved" id={item.id} />
+          ) : (
+            <>
+              <p className="who">
+                {item.displayPreference === 'anonymous' ? 'A former student' : item.name}
+                {item.connection ? `, ${item.connection}` : ''}
+              </p>
+              {item.story && <p style={{ whiteSpace: 'pre-wrap' }}>&ldquo;{item.story}&rdquo;</p>}
+              {item.link && <p style={{ fontFamily: 'var(--sans)', fontSize: 13 }}><a href={item.link} target="_blank" rel="noreferrer">{item.linkTitle || item.link}</a></p>}
+              <div style={{ display: 'flex', gap: 10 }}>
+                <button className="btn btn-outline" type="button" disabled={busyId === item.id} onClick={() => startEdit('approved', item)}>
+                  Edit
+                </button>
+                <button className="btn btn-outline" type="button" disabled={busyId === item.id} onClick={() => runAction({ action: 'feature-from-approved', id: item.id })}>
+                  Feature This
+                </button>
+                <button className="btn btn-outline" type="button" disabled={busyId === item.id} onClick={() => runAction({ action: 'delete-approved', id: item.id })}>
+                  Remove
+                </button>
+              </div>
+            </>
+          )}
         </div>
       ))}
 

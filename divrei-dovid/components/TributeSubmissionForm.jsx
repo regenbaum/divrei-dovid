@@ -144,7 +144,11 @@ export default function TributeSubmissionForm() {
 
       <div className="field">
         <label htmlFor="t-story">Your memory (optional if you're sharing a link or photo instead)</label>
-        <textarea id="t-story" value={form.story} onChange={(e) => update('story', e.target.value)} />
+        <textarea id="t-story" rows={6} value={form.story} onChange={(e) => update('story', e.target.value)} />
+        <p className="form-note" style={{ marginTop: 6 }}>
+          Paragraph breaks, indenting, and numbered points (like &ldquo;1. &hellip; 2. &hellip;&rdquo;)
+          will display exactly as you type them.
+        </p>
       </div>
 
       <div className="field">
